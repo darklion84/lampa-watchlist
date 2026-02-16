@@ -1,15 +1,23 @@
 (function () {
     'use strict';
 
+    console.log('[Watchlist] Plugin script loaded');
+
     // Check if Lampa is available
     if (typeof Lampa === 'undefined') {
-        console.error('Watchlist plugin: Lampa is not defined');
+        console.error('[Watchlist] Lampa is not defined, waiting...');
+        setTimeout(arguments.callee, 100);
         return;
     }
 
     // Prevent double initialization
-    if (window.watchlist_plugin_loaded) return;
+    if (window.watchlist_plugin_loaded) {
+        console.log('[Watchlist] Already loaded, skipping');
+        return;
+    }
     window.watchlist_plugin_loaded = true;
+
+    console.log('[Watchlist] Starting initialization');
 
     // ============================================
     // WATCHLIST PLUGIN FOR LAMPA
@@ -720,28 +728,35 @@
     // PLUGIN INITIALIZATION
     // ============================================
     function initPlugin() {
+        console.log('[Watchlist] initPlugin called');
         try {
             // Register component
+            console.log('[Watchlist] Registering component...');
             Lampa.Component.add('watchlist', WatchlistComponent);
 
             // Add menu item
+            console.log('[Watchlist] Adding menu item...');
             createMenuItem();
 
             // Add button to card pages
+            console.log('[Watchlist] Adding card button listener...');
             addWatchlistButton();
 
-            console.log('Watchlist plugin initialized');
+            console.log('[Watchlist] Plugin initialized successfully!');
         } catch (e) {
-            console.error('Watchlist plugin init error:', e);
+            console.error('[Watchlist] Init error:', e);
         }
     }
 
     // Start plugin
+    console.log('[Watchlist] Checking appready:', window.appready);
     if (window.appready) {
         initPlugin();
     } else {
+        console.log('[Watchlist] Waiting for app ready event...');
         Lampa.Listener.follow('app', function (e) {
             if (e.type === 'ready') {
+                console.log('[Watchlist] App ready event received');
                 initPlugin();
             }
         });
