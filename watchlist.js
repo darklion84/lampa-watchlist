@@ -340,7 +340,12 @@
                 var render = e.object.activity.render();
                 render.find('.watchlist-btn').remove();
 
-                var btn = $('<div class="full-start__button selector watchlist-btn"></div>');
+                // Try both old and new button container selectors
+                var buttons = render.find('.full-start-new__buttons');
+                if (!buttons.length) buttons = render.find('.full-start__buttons');
+                if (!buttons.length) return;
+
+                var btn = $('<div class="full-start-new__button selector watchlist-btn"></div>');
 
                 if (inList) {
                     if (item && item.watched) {
@@ -399,7 +404,7 @@
                     }
                 });
 
-                render.find('.full-start__buttons').append(btn);
+                buttons.append(btn);
             }
         });
     }
