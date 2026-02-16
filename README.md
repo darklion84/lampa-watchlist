@@ -14,17 +14,13 @@
 
 ## Установка
 
-### Способ 1: URL плагина
-
-1. Откройте Lampa → Настройки → Плагины
-2. Введите URL: `https://raw.githubusercontent.com/YOUR_USERNAME/lampa-watchlist/main/watchlist.js`
+1. Откройте **Lampa → Настройки → Плагины**
+2. Введите URL:
+   ```
+   https://cdn.jsdelivr.net/gh/darklion84/lampa-watchlist@v1.0.1/watchlist.js
+   ```
 3. Перезагрузите Lampa
-
-### Способ 2: Локальная установка
-
-1. Скачайте файл `watchlist.js`
-2. Разместите на своём веб-сервере
-3. Добавьте URL в настройках плагинов Lampa
+4. В меню появится пункт **"Мой список"**
 
 ## Использование
 
