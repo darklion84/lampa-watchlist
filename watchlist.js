@@ -1,6 +1,16 @@
 (function () {
     'use strict';
 
+    // Check if Lampa is available
+    if (typeof Lampa === 'undefined') {
+        console.error('Watchlist plugin: Lampa is not defined');
+        return;
+    }
+
+    // Prevent double initialization
+    if (window.watchlist_plugin_loaded) return;
+    window.watchlist_plugin_loaded = true;
+
     // ============================================
     // WATCHLIST PLUGIN FOR LAMPA
     // Allows users to manage a "To Watch" / "Watched" list
@@ -433,18 +443,18 @@
                     Lampa.Controller.collectionFocus(false, scroll.render());
                 },
                 left: function () {
-                    if (Navigator.canmove('left')) Navigator.move('left');
+                    if (Lampa.Navigator.canmove('left')) Lampa.Navigator.move('left');
                     else Lampa.Controller.toggle('menu');
                 },
                 right: function () {
-                    Navigator.move('right');
+                    Lampa.Navigator.move('right');
                 },
                 up: function () {
-                    if (Navigator.canmove('up')) Navigator.move('up');
+                    if (Lampa.Navigator.canmove('up')) Lampa.Navigator.move('up');
                     else Lampa.Controller.toggle('head');
                 },
                 down: function () {
-                    Navigator.move('down');
+                    Lampa.Navigator.move('down');
                 },
                 gone: function () {},
                 back: function () {
@@ -676,19 +686,6 @@
     // ============================================
     // MENU INTEGRATION
     // ============================================
-    function addMenuItem() {
-        // Wait for Lampa to be ready
-        if (window.appready) {
-            createMenuItem();
-        } else {
-            Lampa.Listener.follow('app', function (e) {
-                if (e.type === 'ready') {
-                    createMenuItem();
-                }
-            });
-        }
-    }
-
     function createMenuItem() {
         var item = $('<li class="menu__item selector">\
             <div class="menu__ico">\
@@ -723,16 +720,20 @@
     // PLUGIN INITIALIZATION
     // ============================================
     function initPlugin() {
-        // Register component
-        Lampa.Component.add('watchlist', WatchlistComponent);
+        try {
+            // Register component
+            Lampa.Component.add('watchlist', WatchlistComponent);
 
-        // Add menu item
-        addMenuItem();
+            // Add menu item
+            createMenuItem();
 
-        // Add button to card pages
-        addWatchlistButton();
+            // Add button to card pages
+            addWatchlistButton();
 
-        console.log('Watchlist plugin initialized');
+            console.log('Watchlist plugin initialized');
+        } catch (e) {
+            console.error('Watchlist plugin init error:', e);
+        }
     }
 
     // Start plugin
