@@ -10,7 +10,7 @@
     // ============================================
     var manifest = {
         type: 'other',
-        version: '1.0.0',
+        version: '1.0.2',
         name: 'Мой список',
         description: 'Список фильмов и сериалов к просмотру',
         component: 'watchlist'
