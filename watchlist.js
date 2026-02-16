@@ -347,24 +347,32 @@
 
                 var btn = $('<div class="full-start-new__button selector watchlist-btn"></div>');
 
-                if (inList) {
-                    if (item && item.watched) {
-                        var icons = { liked: '👍', ok: '👌', disliked: '👎' };
-                        btn.text('Просмотрено ' + (icons[item.impression] || ''));
+                // SVG иконка списка
+                var icoAdd = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M14 10H3v2h11v-2zm0-4H3v2h11V6zm4 8v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zM3 16h7v-2H3v2z"/></svg>';
+                var icoCheck = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>';
+                var icoWatched = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>';
+
+                function updateBtn() {
+                    if (inList) {
+                        if (item && item.watched) {
+                            var icons = { liked: '👍', ok: '👌', disliked: '👎' };
+                            btn.html(icoWatched + '<span>' + (icons[item.impression] || '') + ' Просмотрено</span>');
+                        } else {
+                            btn.html(icoCheck + '<span>В списке</span>');
+                        }
                     } else {
-                        btn.text('В списке ✓');
+                        btn.html(icoAdd + '<span>К просмотру</span>');
                     }
-                } else {
-                    btn.text('К просмотру +');
                 }
+                updateBtn();
 
                 btn.on('hover:enter', function () {
                     if (!inList) {
                         if (Storage.add(card)) {
                             Lampa.Noty.show('Добавлено в список');
-                            btn.text('В списке ✓');
                             inList = true;
                             item = Storage.find(card.id, type);
+                            updateBtn();
                         }
                     } else {
                         Lampa.Select.show({
@@ -384,19 +392,20 @@
                                         onSelect: function (imp) {
                                             Storage.markWatched(item.id, imp.value);
                                             Lampa.Noty.show('Отмечено');
-                                            var icons = { liked: '👍', ok: '👌', disliked: '👎' };
-                                            btn.text('Просмотрено ' + icons[imp.value]);
+                                            item = Storage.find(card.id, type);
+                                            updateBtn();
                                         }
                                     });
                                 } else if (s.action === 'unwatch') {
                                     Storage.markUnwatched(item.id);
-                                    btn.text('В списке ✓');
+                                    item = Storage.find(card.id, type);
+                                    updateBtn();
                                     Lampa.Noty.show('Возвращено к просмотру');
                                 } else if (s.action === 'remove') {
                                     Storage.remove(item.id);
-                                    btn.text('К просмотру +');
                                     inList = false;
                                     item = null;
+                                    updateBtn();
                                     Lampa.Noty.show('Удалено');
                                 }
                             }
