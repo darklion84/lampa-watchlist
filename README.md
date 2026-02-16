@@ -17,7 +17,7 @@
 1. Откройте **Lampa → Настройки → Плагины**
 2. Введите URL:
    ```
-   https://cdn.jsdelivr.net/gh/darklion84/lampa-watchlist@v1.0.3/watchlist.js
+   https://cdn.jsdelivr.net/gh/darklion84/lampa-watchlist@v1.0.4/watchlist.js
    ```
 3. Перезагрузите Lampa
 4. В меню появится пункт **"Мой список"**

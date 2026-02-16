@@ -10,7 +10,7 @@
     // ============================================
     var manifest = {
         type: 'other',
-        version: '1.0.3',
+        version: '1.0.4',
         name: 'Мой список',
         description: 'Список фильмов и сериалов к просмотру',
         component: 'watchlist'
@@ -345,7 +345,7 @@
                 if (!buttons.length) buttons = render.find('.full-start__buttons');
                 if (!buttons.length) return;
 
-                var btn = $('<div class="full-start-new__button selector watchlist-btn"></div>');
+                var btn = $('<div class="full-start__button selector watchlist-btn"></div>');
 
                 // SVG иконки с правильными размерами
                 var svgStyle = 'width="24" height="24"';
